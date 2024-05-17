@@ -23,6 +23,11 @@ namespace DataAccessLayer.Concrete.Repositories
             c.SaveChanges();
         }
 
+        public T Get(Expression<Func<T, bool>> filter)
+        {
+            return _object.SingleOrDefault(filter);//Bir dizide veya listede sadece bir tane değer döndürmek için kullanılan linq
+        }
+
         public void Insert(T p)
         {
             _object.Add(p);
@@ -41,6 +46,8 @@ namespace DataAccessLayer.Concrete.Repositories
 
         public void Update(T p)
         {
+            var updateEntity = c.Entry(p);
+            updateEntity.State = EntityState.Modified;
             c.SaveChanges();
         }
     }
